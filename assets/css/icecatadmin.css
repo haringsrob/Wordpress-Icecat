@@ -1,0 +1,27 @@
+.row{
+  float: left;
+  width: 100%;
+}
+.halfgroup{
+  width: 50%;
+  float: left;
+}
+.halfgroup .inner{
+  width: 100%;
+  float: left;
+}
+.fieldrow h4{
+  margin-bottom: 0px;
+}
+
+.fieldrow .description{
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 10px;
+  border-left: 2px solid #fcfcfc;
+  padding-left: 5px;
+}
+
+div.updated{
+  margin-left: 0!important;
+}
