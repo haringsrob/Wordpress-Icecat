@@ -59,7 +59,7 @@ function renderGroup($group, $group_title, $fields) {
  */
 function renderField($field) {
   // Init our return value;
-  $render = null;
+  $render = NULL;
   // Render fields.
   if (isset($field['field_type'])) {
 
@@ -92,7 +92,7 @@ function renderField($field) {
         $checked = 'checked="checked"';
       }
       else {
-        $checked = null;
+        $checked = NULL;
       }
 
       $render .= '<input type="checkbox" ';
@@ -131,10 +131,10 @@ function form_is_submitted($fields) {
       }
       update_option($field['field_name'], $value);
     }
-    return true;
+    return TRUE;
   }
   else {
-    return false;
+    return FALSE;
   }
 }
 
