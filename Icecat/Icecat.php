@@ -18,6 +18,7 @@ class Icecat
   private $password;
   private $serveradres = 'http://data.icecat.biz/xml_s3/xml_server3.cgi';
   public $language;
+
   /*
    * Our icecat variables.
    */
@@ -76,18 +77,18 @@ class Icecat
     foreach ($this->getUrls() as $url) {
       $options = array(
         'http' => array(
-          'header' => "Authorization: Basic " . base64_encode($this->username . ":" . $this->password)
-        )
+          'header' => "Authorization: Basic " . base64_encode($this->username . ":" . $this->password),
+        ),
       );
       $context = stream_context_create($options);
       $data = file_get_contents($url, FALSE, $context);
       $xml = simplexml_load_string($data);
       // Check for errors.
-      if(!empty($xml->Product['ErrorMessage'])){
+      if (!empty($xml->Product['ErrorMessage'])) {
         $this->errors['error'] = array(
           'message' => $xml->Product['ErrorMessage']->__toString(),
           'code' => $xml->Product['Code']->__toString(),
-          'type' => 'error'
+          'type' => 'error',
         );
         return FALSE;
       }
@@ -99,7 +100,7 @@ class Icecat
         $this->errors['error'] = array(
           'message' => 'Empty response.',
           'code' => 2,
-          'type' => 'error'
+          'type' => 'error',
         );
         return FALSE;
       }
@@ -108,7 +109,7 @@ class Icecat
     $this->errors['error'] = array(
       'message' => 'No valid urls.',
       'code' => 2,
-      'type' => 'error'
+      'type' => 'error',
     );
     return FALSE;
   }
@@ -235,9 +236,9 @@ class Icecat
     // Loop our data.
     foreach ($this->icecat_data->Product->ProductFeature as $feature) {
       $spec[$speccount]['name'] = $feature->Feature->Name->attributes()->Value->__toString();
-      $spec[$speccount]['data'] = $feature->attributes()->Value->__toString();
+      $spec[$speccount]['data'] = $feature->attributes()->Presentation_Value->__toString();
 
-      // count up.
+      // Count up.
       $speccount++;
     }
 
