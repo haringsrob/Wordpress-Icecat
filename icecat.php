@@ -8,7 +8,7 @@
  * Description: This plugin allows you grab icecat data and attach it to your
  * post.
  * Author: tortelduif
- * Version: 4.5
+ * Version: 4.5.1
  * Author URI: http://www.harings.be.
  */
 
