@@ -58,18 +58,18 @@ function renderGroup($group, $group_title, $fields) {
  * Function to render our Fields.
  */
 function renderField($field) {
-  // Init our return value;
+  // Init our return value.
   $render = NULL;
   // Render fields.
   if (isset($field['field_type'])) {
 
     // Default render prefix.
     $render .= '<div class="fieldrow">';
-    $render .= '<h4>' . __($field['field_title'], 'icecat') . '</h4>';
+    $render .= '<h4>' . __($field['field_title']) . '</h4>';
 
     // If set render the description.
     if (isset($field['field_info']) && $field['field_info'] != '') {
-      $render .= '<div class="description">' . __($field['field_info'], 'icecat') . '</div>';
+      $render .= '<div class="description">' . __($field['field_info']) . '</div>';
     }
 
     // Case: Textfield.
@@ -100,6 +100,23 @@ function renderField($field) {
       $render .= $checked . ' />';
     }
 
+    // Case: Selectlist.
+    if ($field['field_type'] == 'select' && isset($field['field_options'])) {
+
+      $render .= '<select ';
+      $render .= 'name="' . $field['field_name'] . '">';
+
+      foreach ($field['field_options'] as $key => $value) {
+        if ($key == $field['field_default']) {
+          $render .= '<option selected="selected" value="' . $key . '">' . $value . '</option>';
+        }
+        else {
+          $render .= '<option value="' . $key . '">' . $value . '</option>';
+        }
+      }
+      $render .= '</select>';
+    }
+
     // Case: Save button.
     if ($field['field_type'] == 'submit') {
       $render .= '<input type="submit" ';
@@ -118,18 +135,22 @@ function renderField($field) {
 /**
  * This function simply checks if we have a form submission.
  */
-function form_is_submitted($fields) {
+function form_is_submitted($fields, $checker) {
   // Check if the required post fields are available.
-  if (isset($_POST['icecat_hidden']) && $_POST['icecat_hidden'] == "Y") {
+  if (isset($_POST[$checker]) && $_POST[$checker] == "Y") {
     foreach ($fields as $key => $field) {
-      // If our field is in the post.
-      if (isset($_POST[$field['field_name']])) {
-        $value = $_POST[$field['field_name']];
+      if ($field['field_name'] !== 'Submit') {
+        // If our field is in the post.
+        if (isset($_POST[$field['field_name']])) {
+          $value = $_POST[$field['field_name']];
+        }
+        else {
+          $value = 'off';
+        }
+        if (!update_option($field['field_name'], $value) && !get_option($field['field_name'])) {
+          add_option($field['field_name'], $value);
+        }
       }
-      else {
-        $value = 'off';
-      }
-      update_option($field['field_name'], $value);
     }
     return TRUE;
   }
@@ -142,19 +163,21 @@ function form_is_submitted($fields) {
  * Function to set the saved values.
  */
 function fields_set_default_values($fields) {
+  $boolean_fields = array('boolean');
   // Loop over our fields, and process the data we allready have.
   foreach ($fields as $key => $field) {
     // We dont need to check buttons.
-    if ($field['field_type'] != 'submit') {
+    if ($field['field_type'] !== 'submit') {
       // Check if on/off should be 1/0.
-      if (get_option($field['field_name']) == 'on') {
+      $is_boolean = in_array($field['field_type'], $boolean_fields);
+      if ($is_boolean && get_option($field['field_name']) == 'on') {
         $value = 1;
       }
-      elseif (get_option($field['field_name']) == 'off') {
+      elseif ($is_boolean && get_option($field['field_name']) == 'off') {
         $value = 0;
       }
       else {
-        $value = get_option($field['field_name']);
+        $value = get_option($field['field_name'], $field['field_default']);
       }
       $fields[$key]['field_default'] = $value;
     }
