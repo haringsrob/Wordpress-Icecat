@@ -6,8 +6,12 @@
  * For this module this is only the Admin page. For now.
  */
 
-// Load our required file.
-require_once plugin_dir_path(__FILE__) . 'adminfunctions.php';
+// If our helper function is not yet available, we include the file containing
+// it. Make it so that it does not load twice.
+if (!function_exists('renderForm')) {
+  // Load our required file.
+  require_once plugin_dir_path(__FILE__) . 'adminfunctions.php';
+}
 
 /**
  * Here we define our groups, later on used to render our form "nicely".
