@@ -107,7 +107,7 @@ class Icecat
     }
     // No loop, no data.
     $this->errors['error'] = array(
-      'message' => 'No valid urls.',
+      'message' => 'No valid urls.' . print_r($this->getUrls(), true),
       'code' => 2,
       'type' => 'error',
     );
