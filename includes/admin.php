@@ -226,7 +226,7 @@ $fields = array(
  *
  * If so, we validate and save the data.
  */
-if (form_is_submitted($fields)) {
+if (form_is_submitted($fields, 'icecat_hidden')) {
   // Update options.
   ?>
   <div class="updated">
