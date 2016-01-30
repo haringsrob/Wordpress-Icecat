@@ -49,6 +49,13 @@ function icecat_admin_notice() {
  * The following function makes the front end look good!
  *
  * It will add the icecat data to the content footer.
+ *
+ * @param $content
+ *   The new content.
+ * @param $newcontent bool
+ *   If the content is new.
+ * @param $import bool
+ *   If it is wp all import.
  */
 function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
@@ -56,7 +63,6 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   if ($newcontent && !is_array($newcontent)) {
     // Set the $post variable.
     $post = get_post($content);
-    global $wp_query;
   }
   else {
     // If not a post or import. Do nothing.
@@ -126,7 +132,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   // Product ID.
   $partnumber   = $icecat->getAttribute('Prod_id');
   // Supplier.
-  $supplier     = $icecat->getSupplier();
+  // $supplier     = $icecat->getSupplier();
   // Descriptions + custom alteration.
   $productinfo  = str_replace('\n', '<br />', $icecat->getLongDescription());
   // Get Category.
@@ -144,7 +150,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     if (function_exists('sanitize_title') && !term_exists($category, 'product_cat')) {
       $slug = sanitize_title($category);
       // Create our array.
-      $product_category_insert = wp_insert_term(
+      wp_insert_term(
         $category,
         'product_cat',
         array(
@@ -154,7 +160,6 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       );
       // Get our term id by name.
       $product_category_id = get_term_by('name', $category, 'product_cat');
-      $update = TRUE;
       // The category is created, update is set to TRUE so we can add it to our
       // product.
     }
@@ -162,7 +167,6 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       if (!has_category($category, $post)) {
         // Category must be linked becouse it allready exists.
         $product_category_id = get_term_by('name', $category, 'product_cat');
-        $update = TRUE;
       }
     }
   }
@@ -247,23 +251,41 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   // Create the table.
   $i = 0;
   $subcount = 0;
+  $attributes_data = array();
   // Check if array.
   if (is_array($specs)) {
     foreach ($specs as $spec) {
-
+      // Set our original name.
+      $original = $spec['name'];
+      $is_new = FALSE;
       // Set our product attributes.
       if (get_option('icecat_specs_attributes') == "on") {
-        $badarr = array(' ', '&', '@', '"', "'", '/', '\\');
-        $name = strtolower(str_replace($badarr, '', $spec['name']));
-        $product_attributes[$subcount . $name] = array(
-          // Make sure the 'name' is same as you have the attribute.
-          'name' => htmlspecialchars(stripslashes($spec['name'])),
-          'value' => $spec['data'],
-          'position' => $subcount,
-          'is_visible' => 1,
-          'is_variation' => 1,
-          'is_taxonomy' => 0,
-        );
+        if (!taxonomy_exists(wc_attribute_taxonomy_name($spec['name'])) && strlen($spec['name']) <= 27) {
+          // Build our new array for the attribute.
+          $attribute = array(
+            'attribute_label' => sanitize_text_field($original),
+            'attribute_name' => wc_sanitize_taxonomy_name($spec['name']),
+            'attribute_type' => 'select',
+            'attribute_orderby' => 'menu_order',
+            'attribute_public' => '0',
+          );
+          // Init db.
+          global $wpdb;
+          // Insert the attribute.
+          $wpdb->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attribute);
+          // Transient (...).
+          delete_transient('wc_attribute_taxonomies');
+          // Register the new taxonomy.
+          register_taxonomy(wc_attribute_taxonomy_name($spec['name']), array('product'));
+          // Add the taxonomy.
+          _icecat_add_new_term($attributes_data, $spec, $post, $i);
+          $is_new = TRUE;
+        }
+
+        // If it already exists.
+        if (taxonomy_exists(wc_attribute_taxonomy_name($spec['name'])) && !$is_new) {
+          _icecat_add_new_term($attributes_data, $spec, $post, $i);
+        }
       }
 
       // Count up.
@@ -275,7 +297,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       // Set it correct.
       if (get_option('icecat_specs_body') == "on") {
         $appendtobody .= '<tr class="featurerow ' . $class . '">';
-        $appendtobody .= '<td class="feature">' . $spec['name'] . '</td>';
+        $appendtobody .= '<td class="feature">' . $original . '</td>';
         $appendtobody .= '<td class="featurevalue">' . $spec['data'] . '</td>';
         $appendtobody .= '</tr>';
       }
@@ -294,6 +316,8 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     }
   }
 
+  remove_action('save_post', 'icecat_save_postdata');
+
   // 4. TITLE AND NAME
   // We set our product title and name.
   if (get_option('icecat_update_title') == 'on' && $producttitle) {
@@ -303,7 +327,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
   // 5. CATEGORY
   // If our category is set, add it.
-  if (!empty($product_category_id->term_id)) {
+  if (isset($product_category_id) && !empty($product_category_id->term_id)) {
     wp_set_object_terms($post->ID, $product_category_id->term_id, 'product_cat');
   }
 
@@ -318,17 +342,23 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     }
   }
 
+  // Update the post.
+  wp_update_post($postarr);
+
   // 7. SKU
   // Update sku.
   if (get_option('icecat_set_sku') == 'on' && isset($partnumber) && !empty($partnumber)) {
     update_post_meta($post->ID, '_sku', $partnumber);
   }
 
+  // Add attributes.
+  if (isset($attributes_data)) {
+    update_post_meta($post->ID, '_product_attributes', $attributes_data);
+  }
+
   // 8. ALL UPDATE FUNCTIONS
   // Update other fields.
   if ((get_option('icecat_update_body') == 'on' || get_option('icecat_update_title') == 'on') && $newcontent == TRUE) {
-    remove_action('save_post', 'icecat_save_postdata');
-    wp_update_post($postarr);
 
     // Set and check images.
     if (isset($imglist)) {
@@ -345,19 +375,15 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       if (!empty($imglist)) {
         update_post_meta($post->ID, '_product_image_gallery', implode(',', $imglist));
       }
-
     }
-    // Set attributes.
-    if (isset($product_attributes)) {
-      update_post_meta($post->ID, '_product_attributes', $product_attributes);
-    }
-    add_action('save_post', 'icecat_save_postdata');
   }
+
+  // Resume normal actions.
+  add_action('save_post', 'icecat_save_postdata');
 
   if (!$import) {
     $_SESSION['IcecatNotice'][] = array('message' => 'Icecat successfully completed <strong>' . $producttitle . '</strong>', 'type' => 'updated');
   }
-
 }
 
 /**
@@ -404,6 +430,9 @@ function icecat_add_fields() {
 
 /**
  * Create the box itself.
+ *
+ * @param object $post
+ *   The wordpress post.
  */
 function icecat_inner_data_box($post) {
   // Required.
@@ -427,7 +456,37 @@ function icecat_inner_data_box($post) {
 }
 
 /**
+ * Helper funciton to add the term.
+ *
+ * @param array $attributes_data
+ *   The current attribute list.
+ * @param $spec
+ *   The current spec.
+ * @param $post
+ *   The wordpress post object.
+ * @param $position
+ *   The position in the attribute list.
+ */
+function _icecat_add_new_term(&$attributes_data, $spec, $post, $position) {
+  // Set the object terms.
+  wp_set_object_terms($post->ID, $spec['data'], wc_attribute_taxonomy_name($spec['name']), TRUE);
+
+  // Update our array.
+  $attributes_data[wc_attribute_taxonomy_name($spec['name'])] = array(
+    'name' => wc_attribute_taxonomy_name($spec['name']),
+    'value' => $spec['data'],
+    'position' => $position,
+    'is_visible' => 1,
+    'is_variation' => 1,
+    'is_taxonomy' => 1,
+  );
+}
+
+/**
  * The function for saving the data to the post:page.
+ *
+ * @param int $post_id
+ *   The id of the post.
  */
 function icecat_save_postdata($post_id) {
   if ($_POST) {
