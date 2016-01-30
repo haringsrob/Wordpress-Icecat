@@ -8,7 +8,7 @@
  * Description: This plugin allows you grab icecat data and attach it to your
  * post.
  * Author: tortelduif
- * Version: 4.5.1
+ * Version: 4.6
  * Author URI: http://www.harings.be.
  */
 
@@ -261,7 +261,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
           'value' => $spec['data'],
           'position' => $subcount,
           'is_visible' => 1,
-          'is_variation' => 0,
+          'is_variation' => 1,
           'is_taxonomy' => 0,
         );
       }
