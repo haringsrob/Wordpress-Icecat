@@ -108,6 +108,15 @@ $fields = array(
   ),
   array(
     'field_group'   => 'group_basic_data',
+    'field_title'   => 'Disable on success',
+    'field_name'    => 'icecat_disable_on_success',
+    'field_type'    => 'boolean',
+    'field_length'  => 1,
+    'field_required' => FALSE,
+    'field_info'    => 'When checked, the entity will be marked as "do not update" you can unmark it from the entity edit form',
+  ),
+  array(
+    'field_group'   => 'group_basic_data',
     'field_title'   => 'Update body',
     'field_name'    => 'icecat_update_body',
     'field_type'    => 'boolean',

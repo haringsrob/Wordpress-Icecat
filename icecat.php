@@ -69,6 +69,11 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     return;
   }
 
+  // If we have the product disabled, we can stop.
+  if (get_post_meta($post->ID, 'icecat_disabled', TRUE) == 'on' && get_option('icecat_disable_on_success') == 'on') {
+    return;
+  }
+
   // HERE ICECAT STARTS TO WORK.
   // Start the class.
   $icecat = new Icecat\Icecat();
@@ -342,6 +347,16 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     }
   }
 
+  if (get_option('icecat_disable_on_success') == 'on') {
+    $disabled_value = get_post_meta($post->ID, 'icecat_disabled', TRUE);
+    if ('' == $disabled_value) {
+      add_post_meta($post->ID, 'icecat_disabled', 'on', TRUE);
+    }
+    else {
+      update_post_meta($post->ID, 'icecat_disabled', 'on');
+    }
+  }
+
   // Update the post.
   wp_update_post($postarr);
 
@@ -384,6 +399,34 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   if (!$import) {
     $_SESSION['IcecatNotice'][] = array('message' => 'Icecat successfully completed <strong>' . $producttitle . '</strong>', 'type' => 'updated');
   }
+}
+
+
+/**
+ * Helper funciton to add the term.
+ *
+ * @param array $attributes_data
+ *   The current attribute list.
+ * @param $spec
+ *   The current spec.
+ * @param $post
+ *   The wordpress post object.
+ * @param $position
+ *   The position in the attribute list.
+ */
+function _icecat_add_new_term(&$attributes_data, $spec, $post, $position) {
+  // Set the object terms.
+  wp_set_object_terms($post->ID, $spec['data'], wc_attribute_taxonomy_name($spec['name']), TRUE);
+
+  // Update our array.
+  $attributes_data[wc_attribute_taxonomy_name($spec['name'])] = array(
+    'name' => wc_attribute_taxonomy_name($spec['name']),
+    'value' => $spec['data'],
+    'position' => $position,
+    'is_visible' => 1,
+    'is_variation' => 1,
+    'is_taxonomy' => 1,
+  );
 }
 
 /**
@@ -435,51 +478,40 @@ function icecat_add_fields() {
  *   The wordpress post.
  */
 function icecat_inner_data_box($post) {
+  echo '<link href="' . plugin_dir_url(__FILE__) . '/assets/css/icecatadmin.css" rel="stylesheet">';
   // Required.
   wp_nonce_field(plugin_basename(__FILE__), 'icecat_noncename');
-  echo '<div style="width: 100%; float: left;"><h3>Icecat Data</h3></div>';
   // Ean.
+  echo '<div class="icecat_form_group">';
   echo '<label for="icecat_ean">';
   _e("Add an EAN (Required)", 'icecat_ean');
   echo '</label> ';
   echo '<input type="text" id="icecat_ean" name="icecat_ean" value="' . esc_attr(get_post_meta($post->ID, 'icecat_ean', TRUE)) . '" size="25" />';
+  echo '</div>';
   // Sku.
+  echo '<div class="icecat_form_group">';
   echo '<label for="icecat_sku">';
   _e("Add an SKU (for icecat)", 'icecat_sku');
   echo '</label> ';
   echo '<input type="text" id="icecat_sku" name="icecat_sku" value="' . esc_attr(get_post_meta($post->ID, 'icecat_sku', TRUE)) . '" size="25" />';
+  echo '</div>';
   // Brand.
+  echo '<div class="icecat_form_group">';
   echo '<label for="icecat_brand">';
   _e("Add a BRAND (for icecat)", 'icecat_brand');
   echo '</label> ';
   echo '<input type="text" id="icecat_ean" name="icecat_brand" value="' . esc_attr(get_post_meta($post->ID, 'icecat_brand', TRUE)) . '" size="25" />';
-}
-
-/**
- * Helper funciton to add the term.
- *
- * @param array $attributes_data
- *   The current attribute list.
- * @param $spec
- *   The current spec.
- * @param $post
- *   The wordpress post object.
- * @param $position
- *   The position in the attribute list.
- */
-function _icecat_add_new_term(&$attributes_data, $spec, $post, $position) {
-  // Set the object terms.
-  wp_set_object_terms($post->ID, $spec['data'], wc_attribute_taxonomy_name($spec['name']), TRUE);
-
-  // Update our array.
-  $attributes_data[wc_attribute_taxonomy_name($spec['name'])] = array(
-    'name' => wc_attribute_taxonomy_name($spec['name']),
-    'value' => $spec['data'],
-    'position' => $position,
-    'is_visible' => 1,
-    'is_variation' => 1,
-    'is_taxonomy' => 1,
-  );
+  echo '</div>';
+  // Disabled.
+  echo '<div class="icecat_form_group">';
+  echo '<label for="icecat_disabled">';
+  _e("Disable icecat for this product", 'icecat_disabled');
+  echo '</label> ';
+  if (esc_attr(get_post_meta($post->ID, 'icecat_disabled', TRUE)) == 'on') {
+    $val = "checked=checked";
+  }
+  echo '<input type="checkbox" id="icecat_disabled" name="icecat_disabled" ' . $val . ' />';
+  echo '</div>';
 }
 
 /**
@@ -515,7 +547,7 @@ function icecat_save_postdata($post_id) {
       }
     }
     // Array of custom fields.
-    $fields = array('ean', 'sku', 'brand');
+    $fields = array('ean', 'sku', 'brand', 'disabled');
     foreach ($fields as $field) {
       $new_ean_value = isset($_POST['icecat_' . $field]) ? esc_attr($_POST['icecat_' . $field]) : '';
       $ean_key = 'icecat_' . $field;
