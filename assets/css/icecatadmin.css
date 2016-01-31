@@ -25,3 +25,26 @@
 div.updated{
   margin-left: 0!important;
 }
+
+.icecat_form_group {
+  border-bottom: 1px solid #eee;
+  padding: 5px;
+  clear: both;
+  width: 100%;
+  float: left;
+  display: block;
+}
+.icecat_form_group label,
+.icecat_form_group input {
+  float: left;
+  display: block;
+}
+
+.icecat_form_group label {
+  width: 30%;
+}
+
+#icecat_subform {
+  float: left;
+  width: 100%;
+}
