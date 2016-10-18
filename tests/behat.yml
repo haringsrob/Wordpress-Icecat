@@ -1,0 +1,14 @@
+default:
+  suites:
+    default:
+      paths:
+        - %paths.base%/features
+      contexts:
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+  extensions:
+    Behat\MinkExtension:
+      base_url: http://personal.wpicecat.web.dev/
+      goutte: ~
+      show_cmd: open %s
+      files_path: %paths.base%/features/data
