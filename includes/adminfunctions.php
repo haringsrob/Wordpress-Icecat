@@ -11,7 +11,8 @@ function renderForm($groups, $fields) {
   // Set the counter.
   $row = 0;
   // Open up our row.
-  $render = '<div class="row">';
+  $render = '<div class="wrap">';
+  $render .= '<h1>' . __('Icecat settings', 'icecat') . '</h1>';
   // Loop our groups.
   foreach ($groups as $group) {
     // Render the group.
@@ -38,10 +39,10 @@ function renderForm($groups, $fields) {
  * Function to render our Groups.
  */
 function renderGroup($group, $group_title, $fields) {
-  // Open up our div.
-  $render = '<div class="' . $group . ' halfgroup"><div class="inner card">';
   // Title.
-  $render .= '<h3>' . __($group_title, 'icecat') . '</h3>';
+  $render = '<h2 class="title">' . __($group_title, 'icecat') . '</h2>';
+  // Open up our div.
+  $render .= '<table class="form-table">';
   // Loop our fields, if group matches, render it.
   foreach ($fields as $field) {
     if ($field['field_group'] == $group) {
@@ -49,7 +50,7 @@ function renderGroup($group, $group_title, $fields) {
     }
   }
   // Close our div.
-  $render .= '</div></div>';
+  $render .= '</table>';
   // Return our render.
   return $render;
 }
@@ -64,14 +65,9 @@ function renderField($field) {
   if (isset($field['field_type'])) {
 
     // Default render prefix.
-    $render .= '<div class="fieldrow">';
-    $render .= '<h4>' . __($field['field_title']) . '</h4>';
-
-    // If set render the description.
-    if (isset($field['field_info']) && $field['field_info'] != '') {
-      $render .= '<div class="description">' . __($field['field_info']) . '</div>';
-    }
-
+    $render .= '<tr>';
+    $render .= '<th>' . __($field['field_title']) . '</th>';
+    $render .= '<td>';
     // Case: Textfield.
     if ($field['field_type'] == 'text' || $field['field_type'] == 'password') {
       // Opening tag.
@@ -81,7 +77,7 @@ function renderField($field) {
       if (isset($field['field_default'])) {
         $render .= 'value="' . $field['field_default'] . '" ';
       }
-      $render .= 'size="' . $field['field_length'] . '">';
+      $render .= 'size="' . $field['field_length'] . '" class="regular-text">';
 
     }
 
@@ -95,9 +91,9 @@ function renderField($field) {
         $checked = NULL;
       }
 
-      $render .= '<input type="checkbox" ';
+      $render .= '<label><input type="checkbox" ';
       $render .= 'name="' . $field['field_name'] . '" ';
-      $render .= $checked . ' />';
+      $render .= $checked . '>';
     }
 
     // Case: Selectlist.
@@ -119,13 +115,30 @@ function renderField($field) {
 
     // Case: Save button.
     if ($field['field_type'] == 'submit') {
-      $render .= '<input type="submit" ';
+      $render .= '<p class="submit">';
+      $render .= '<input type="submit" class="button button-primary" ';
       $render .= 'name="' . $field['field_name'] . '" ';
-      $render .= 'value="' . $field['field_default'] . '" />';
+      $render .= 'value="' . $field['field_default'] . '">';
+      $render .= '</p>';
+    }
+
+    // If set render the description.
+    if (isset($field['field_info']) && $field['field_info'] != '') {
+      if ($field['field_type'] !== 'boolean') {
+        $render .= '<p class="description">';
+      }
+      $render .= __($field['field_info']);
+      if ($field['field_type'] !== 'boolean') {
+        $render .= '</p>';
+      }
+    }
+
+    if ($field['field_type'] === 'boolean') {
+      $render .= '</label>';
     }
 
     // Close our div.
-    $render .= '</div>';
+    $render .= '</td></tr>';
   }
   // Return our render.
   return $render;
