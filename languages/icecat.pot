@@ -1,0 +1,208 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: icecat\n"
+"POT-Creation-Date: 2017-04-23 21:38+0200\n"
+"PO-Revision-Date: 2015-06-18 14:18+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.10\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .sass-cache\n"
+"X-Poedit-SearchPathExcluded-1: bower_components\n"
+"X-Poedit-SearchPathExcluded-2: node_modules\n"
+
+#: icecat.php:454 icecat.php:460 icecat.php:467
+msgid "Set IceCat Data"
+msgstr ""
+
+#: icecat.php:487
+msgid "Add an EAN (Required)"
+msgstr ""
+
+#: icecat.php:494
+msgid "Add an SKU (for icecat)"
+msgstr ""
+
+#: icecat.php:501
+msgid "Add a BRAND (for icecat)"
+msgstr ""
+
+#: icecat.php:508
+msgid "Disable icecat for this product"
+msgstr ""
+
+#: includes/admin.php:22
+msgid "Account information"
+msgstr ""
+
+#: includes/admin.php:26
+msgid "Basic settings"
+msgstr ""
+
+#: includes/admin.php:30
+msgid "Woocommerce settings"
+msgstr ""
+
+#: includes/admin.php:34
+msgid "WP All Import settings"
+msgstr ""
+
+#: includes/admin.php:38
+msgid "Data settings"
+msgstr ""
+
+#: includes/admin.php:42
+msgid "Actions"
+msgstr ""
+
+#: includes/admin.php:56
+msgid "Language"
+msgstr ""
+
+#: includes/admin.php:62
+msgid "This field is used to set the language of the fetched data."
+msgstr ""
+
+#: includes/admin.php:66
+msgid "English as fallback"
+msgstr ""
+
+#: includes/admin.php:72
+msgid "When the product is not available in your language, we can try and download the english version."
+msgstr ""
+
+#: includes/admin.php:76
+msgid "Download on save"
+msgstr ""
+
+#: includes/admin.php:82
+msgid "You can disable this if you only want to use wp all import."
+msgstr ""
+
+#: includes/admin.php:86
+msgid "Username"
+msgstr ""
+
+#: includes/admin.php:95
+msgid "Password"
+msgstr ""
+
+#: includes/admin.php:104
+msgid "Update title"
+msgstr ""
+
+#: includes/admin.php:110 includes/admin.php:130
+msgid "When checked, the product or page title will be updated."
+msgstr ""
+
+#: includes/admin.php:114
+msgid "Disable on success"
+msgstr ""
+
+#: includes/admin.php:120
+msgid "When checked, the entity will be marked as \"do not update\" you can unmark it from the entity edit form"
+msgstr ""
+
+#: includes/admin.php:124
+msgid "Update body"
+msgstr ""
+
+#: includes/admin.php:134
+msgid "Download images"
+msgstr ""
+
+#: includes/admin.php:140
+msgid "Download images from Icecat."
+msgstr ""
+
+#: includes/admin.php:144
+msgid "Set Category"
+msgstr ""
+
+#: includes/admin.php:150
+msgid "Set the product/page category automatically."
+msgstr ""
+
+#: includes/admin.php:154
+msgid "Download specifications"
+msgstr ""
+
+#: includes/admin.php:160
+msgid "If yes we will download specifications."
+msgstr ""
+
+#: includes/admin.php:164
+msgid "Body specifications"
+msgstr ""
+
+#: includes/admin.php:170
+msgid "Add the specifications as body data."
+msgstr ""
+
+#: includes/admin.php:174
+msgid "Enable Woocommerce"
+msgstr ""
+
+#: includes/admin.php:180
+msgid "Enable this plugin for Woocommerce."
+msgstr ""
+
+#: includes/admin.php:185
+msgid "specifications as attributes"
+msgstr ""
+
+#: includes/admin.php:191
+msgid "This will download the specifications into the product attributes."
+msgstr ""
+
+#: includes/admin.php:196
+msgid "Update sku"
+msgstr ""
+
+#: includes/admin.php:202
+msgid "This will update the product with the fetched sku."
+msgstr ""
+
+#: includes/admin.php:207
+msgid "WP All Import"
+msgstr ""
+
+#: includes/admin.php:213
+msgid "Enables wp all import support."
+msgstr ""
+
+#: includes/admin.php:218
+msgid "Multiple images"
+msgstr ""
+
+#: includes/admin.php:224
+msgid "Set this to configure if allimport should download multiple images."
+msgstr ""
+
+#: includes/admin.php:229
+msgid "Image amount"
+msgstr ""
+
+#: includes/admin.php:235
+msgid "Set the amount of images to download. <strong>0 to download all</strong>."
+msgstr ""
+
+#: includes/admin.php:240
+msgid "Save settings"
+msgstr ""
+
+#: includes/admin.php:242
+msgid "Save"
+msgstr ""
+
+#: includes/admin.php:256
+msgid "Data has been saved."
+msgstr ""
