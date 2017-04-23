@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icecat\n"
-"POT-Creation-Date: 2017-04-23 21:38+0200\n"
+"POT-Creation-Date: 2017-04-23 21:59+0200\n"
 "PO-Revision-Date: 2015-06-18 14:18+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,7 @@ msgid "Basic settings"
 msgstr ""
 
 #: includes/admin.php:30
-msgid "Woocommerce settings"
+msgid "WooCommerce settings"
 msgstr ""
 
 #: includes/admin.php:34
@@ -68,7 +68,7 @@ msgid "Language"
 msgstr ""
 
 #: includes/admin.php:62
-msgid "This field is used to set the language of the fetched data."
+msgid "Set the language of the fetched data."
 msgstr ""
 
 #: includes/admin.php:66
@@ -76,7 +76,7 @@ msgid "English as fallback"
 msgstr ""
 
 #: includes/admin.php:72
-msgid "When the product is not available in your language, we can try and download the english version."
+msgid "If the product is not available in your language, try to download the english version."
 msgstr ""
 
 #: includes/admin.php:76
@@ -84,7 +84,7 @@ msgid "Download on save"
 msgstr ""
 
 #: includes/admin.php:82
-msgid "You can disable this if you only want to use wp all import."
+msgid "Disable, if you only want to use WP All Import."
 msgstr ""
 
 #: includes/admin.php:86
@@ -96,113 +96,97 @@ msgid "Password"
 msgstr ""
 
 #: includes/admin.php:104
-msgid "Update title"
+msgid "Update product/page title"
 msgstr ""
 
-#: includes/admin.php:110 includes/admin.php:130
-msgid "When checked, the product or page title will be updated."
-msgstr ""
-
-#: includes/admin.php:114
+#: includes/admin.php:113
 msgid "Disable on success"
 msgstr ""
 
-#: includes/admin.php:120
-msgid "When checked, the entity will be marked as \"do not update\" you can unmark it from the entity edit form"
+#: includes/admin.php:119
+msgid "When checked, the entity will be marked as \"do not update\". You can unmark it from the entity edit form."
 msgstr ""
 
-#: includes/admin.php:124
-msgid "Update body"
+#: includes/admin.php:123
+msgid "Update product/page body"
 msgstr ""
 
-#: includes/admin.php:134
-msgid "Download images"
+#: includes/admin.php:132
+msgid "Download product images"
 msgstr ""
 
-#: includes/admin.php:140
-msgid "Download images from Icecat."
-msgstr ""
-
-#: includes/admin.php:144
+#: includes/admin.php:141
 msgid "Set Category"
 msgstr ""
 
 #: includes/admin.php:150
-msgid "Set the product/page category automatically."
+msgid "Download product specifications"
 msgstr ""
 
 #: includes/admin.php:154
-msgid "Download specifications"
+msgid "Set the product/page category automatically."
 msgstr ""
 
 #: includes/admin.php:160
-msgid "If yes we will download specifications."
-msgstr ""
-
-#: includes/admin.php:164
 msgid "Body specifications"
 msgstr ""
 
-#: includes/admin.php:170
+#: includes/admin.php:166
 msgid "Add the specifications as body data."
 msgstr ""
 
-#: includes/admin.php:174
-msgid "Enable Woocommerce"
+#: includes/admin.php:170
+msgid "Enable for WooCommerce"
 msgstr ""
 
 #: includes/admin.php:180
-msgid "Enable this plugin for Woocommerce."
+msgid "Specifications as attributes"
 msgstr ""
 
-#: includes/admin.php:185
-msgid "specifications as attributes"
-msgstr ""
-
-#: includes/admin.php:191
+#: includes/admin.php:186
 msgid "This will download the specifications into the product attributes."
 msgstr ""
 
-#: includes/admin.php:196
-msgid "Update sku"
+#: includes/admin.php:191
+msgid "Update SKU"
+msgstr ""
+
+#: includes/admin.php:197
+msgid "This will update the product with the fetched SKU."
 msgstr ""
 
 #: includes/admin.php:202
-msgid "This will update the product with the fetched sku."
-msgstr ""
-
-#: includes/admin.php:207
 msgid "WP All Import"
 msgstr ""
 
-#: includes/admin.php:213
-msgid "Enables wp all import support."
+#: includes/admin.php:208
+msgid "Enables WP All Import support."
 msgstr ""
 
-#: includes/admin.php:218
+#: includes/admin.php:213
 msgid "Multiple images"
 msgstr ""
 
-#: includes/admin.php:224
-msgid "Set this to configure if allimport should download multiple images."
+#: includes/admin.php:219
+msgid "Download multiple images via WP All Import."
 msgstr ""
 
-#: includes/admin.php:229
+#: includes/admin.php:224
 msgid "Image amount"
 msgstr ""
 
-#: includes/admin.php:235
+#: includes/admin.php:230
 msgid "Set the amount of images to download. <strong>0 to download all</strong>."
 msgstr ""
 
-#: includes/admin.php:240
+#: includes/admin.php:235
 msgid "Save settings"
 msgstr ""
 
-#: includes/admin.php:242
+#: includes/admin.php:237
 msgid "Save"
 msgstr ""
 
-#: includes/admin.php:256
+#: includes/admin.php:251
 msgid "Data has been saved."
 msgstr ""
