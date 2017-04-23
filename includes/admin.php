@@ -88,6 +88,7 @@ $fields = array(
     'field_type'    => 'text',
     'field_length'  => 32,
     'field_required' => TRUE,
+    'field_default' => '',
   ),
   array(
     'field_group'   => 'group_account',
@@ -96,6 +97,7 @@ $fields = array(
     'field_type'    => 'password',
     'field_length'  => 64,
     'field_required' => TRUE,
+    'field_default' => '',
   ),
   array(
     'field_group'   => 'group_basic_data',
@@ -104,6 +106,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'When checked, the product or page title will be updated.',
   ),
   array(
@@ -113,6 +116,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'When checked, the entity will be marked as "do not update" you can unmark it from the entity edit form',
   ),
   array(
@@ -122,6 +126,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'When checked, the product or page title will be updated.',
   ),
   array(
@@ -131,6 +136,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Download images from Icecat.',
   ),
   array(
@@ -140,6 +146,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Set the product/page category automatically.',
   ),
   array(
@@ -149,6 +156,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'If yes we will download specifications.',
   ),
   array(
@@ -158,6 +166,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Add the specifications as body data.',
   ),
   array(
@@ -167,6 +176,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Enable this plugin for Woocommerce.',
     'requiredplugin' => 'woocommerce/woocommerce.php',
   ),
@@ -177,6 +187,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'This will download the specifications into the product attributes.',
     'requiredplugin' => 'woocommerce/woocommerce.php',
   ),
@@ -187,6 +198,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'This will update the product with the fetched sku.',
     'requiredplugin' => 'woocommerce/woocommerce.php',
   ),
@@ -197,6 +209,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Enables wp all import support.',
     'requiredplugin' => 'wp-all-import-pro/wp-all-import-pro.php',
   ),
@@ -207,6 +220,7 @@ $fields = array(
     'field_type'    => 'boolean',
     'field_length'  => 1,
     'field_required' => FALSE,
+    'field_default' => 0,
     'field_info'    => 'Set this to configure if allimport should download multiple images.',
     'requiredplugin' => 'wp-all-import-pro/wp-all-import-pro.php',
   ),
@@ -217,7 +231,7 @@ $fields = array(
     'field_type'    => 'text',
     'field_length'  => 3,
     'field_required' => FALSE,
-    'field_default' => 0,
+    'field_default' => '',
     'field_info'    => 'Set the amount of images to download. <strong>0 to download all</strong>.',
     'requiredplugin' => 'wp-all-import-pro/wp-all-import-pro.php',
   ),
