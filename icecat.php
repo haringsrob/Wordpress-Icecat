@@ -393,9 +393,6 @@ function icecat_get_data($content, $is_new_content = FALSE, $import = FALSE) {
     }
   }
 
-  // Resume normal actions.
-  add_action('save_post', 'icecat_save_postdata');
-
   if (!$import) {
     $_SESSION['IcecatNotice'][] = array('message' => 'Icecat successfully completed <strong>' . $product_title . '</strong>', 'type' => 'updated');
   }
