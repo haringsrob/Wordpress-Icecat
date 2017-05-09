@@ -102,10 +102,10 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     // The "file does not exist" error mostly happens when the content is not
     // avialable in the selected language. So if we have a fallback language,
     // we can adapt.
-    if ($error_array['message'] == 'File does not exist.' && get_option('icecat_fallback') == 'off') {
+    if ($error_array['message'] === 'File does not exist.' && get_option('icecat_fallback') === 'off') {
       $error_array['message'] .= " The product might not be available in the following language: " . get_option('icecat_language') . ".";
     }
-    elseif ($error_array['message'] == 'File does not exist.' && get_option('icecat_fallback') == 'on') {
+    elseif ($error_array['message'] === 'File does not exist.' && get_option('icecat_fallback') === 'on') {
       // Lets try again in english.
       $icecat->setLanguage('en');
       // Lets see if we have an error this time.
@@ -151,7 +151,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   //
   // 1. TAGGING
   // We'll be adding the tags (category) to our product.
-  if (is_plugin_active('woocommerce/woocommerce.php') && get_option('icecat_set_category') == "on") {
+  if (is_plugin_active('woocommerce/woocommerce.php') && get_option('icecat_set_category') === "on") {
     if (function_exists('sanitize_title') && !term_exists($category, 'product_cat')) {
       $slug = sanitize_title($category);
       // Create our array.
@@ -177,7 +177,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   }
   // 2. DOWNLOADING IMAGES
   // Download and attach the images.
-  if (is_array($images) && get_option('icecat_download_images') == "on" && $post->post_type == "product" && !has_post_thumbnail($post->ID)) {
+  if (is_array($images) && get_option('icecat_download_images') === "on" && $post->post_type === "product" && !has_post_thumbnail($post->ID)) {
     // Required include for woocommerce.
     // Also lets check we can atleast find an image!
     if (is_plugin_active('woocommerce/woocommerce.php') && isset($images[0]['high'])) {
@@ -213,7 +213,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       unset($images[0]);
       // Skip downloading additional images if it is an import. Would take a
       // long time.
-      if (!$import || get_option('icecat_wp_all_import_multiimage') == 'on') {
+      if (!$import || get_option('icecat_wp_all_import_multiimage') === 'on') {
         // Download images.
         $imgcount = 0;
         // Loop other images.
@@ -249,7 +249,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
   // 3. SPECIFICATIONS
   // We create and add specifications to our product.
   $appendtobody = NULL;
-  if (get_option('icecat_specs_body') == "on") {
+  if (get_option('icecat_specs_body') === "on") {
     $appendtobody .= '<table id="icecat_spec_table">';
     $appendtobody .= '<thead><th>Feature</th><th>Feature Value</th></thead><tbody>';
   }
@@ -264,7 +264,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       $original = $spec['name'];
       $is_new = FALSE;
       // Set our product attributes.
-      if (get_option('icecat_specs_attributes') == "on") {
+      if (get_option('icecat_specs_attributes') === "on") {
         if (!taxonomy_exists(wc_attribute_taxonomy_name($spec['name'])) && strlen($spec['name']) <= 27) {
           // Build our new array for the attribute.
           $attribute = array(
@@ -300,7 +300,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       $class = $i == 2 ? 'even' : 'odd';
 
       // Set it correct.
-      if (get_option('icecat_specs_body') == "on") {
+      if (get_option('icecat_specs_body') === "on") {
         $appendtobody .= '<tr class="featurerow ' . $class . '">';
         $appendtobody .= '<td class="feature">' . $original . '</td>';
         $appendtobody .= '<td class="featurevalue">' . $spec['data'] . '</td>';
@@ -315,7 +315,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
       $subcount++;
     }
     // Close the table.
-    if (get_option('icecat_specs_body') == "on") {
+    if (get_option('icecat_specs_body') === "on") {
       $appendtobody .= '</tbody>';
       $appendtobody .= '</table>';
     }
@@ -325,7 +325,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
   // 4. TITLE AND NAME
   // We set our product title and name.
-  if (get_option('icecat_update_title') == 'on' && $producttitle) {
+  if (get_option('icecat_update_title') === 'on' && $producttitle) {
     $postarr['post_title'] = $producttitle;
     $postarr['post_name'] = $producttitle;
   }
@@ -338,7 +338,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
   // 6. BODY
   // Update our body if we have data.
-  if (get_option('icecat_update_body') == 'on') {
+  if (get_option('icecat_update_body') === 'on') {
     if ($productinfo <> "") {
       $postarr['post_content'] = $productinfo . '<hr />' . $appendtobody;
     }
@@ -347,7 +347,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
     }
   }
 
-  if (get_option('icecat_disable_on_success') == 'on') {
+  if (get_option('icecat_disable_on_success') === 'on') {
     $disabled_value = get_post_meta($post->ID, 'icecat_disabled', TRUE);
     if ('' == $disabled_value) {
       add_post_meta($post->ID, 'icecat_disabled', 'on', TRUE);
@@ -362,7 +362,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
   // 7. SKU
   // Update sku.
-  if (get_option('icecat_set_sku') == 'on' && isset($partnumber) && !empty($partnumber)) {
+  if (get_option('icecat_set_sku') === 'on' && isset($partnumber) && !empty($partnumber)) {
     update_post_meta($post->ID, '_sku', $partnumber);
   }
 
@@ -373,7 +373,7 @@ function icecat_getdata($content, $newcontent = FALSE, $import = FALSE) {
 
   // 8. ALL UPDATE FUNCTIONS
   // Update other fields.
-  if ((get_option('icecat_update_body') == 'on' || get_option('icecat_update_title') == 'on') && $newcontent == TRUE) {
+  if ((get_option('icecat_update_body') === 'on' || get_option('icecat_update_title') === 'on') && $newcontent == TRUE) {
 
     // Set and check images.
     if (isset($imglist)) {
@@ -461,7 +461,7 @@ function icecat_add_fields() {
     'icecat_inner_data_box',
     'page'
   );
-  if (is_plugin_active('woocommerce/woocommerce.php') && get_option('icecat_woocommerce') == "on") {
+  if (is_plugin_active('woocommerce/woocommerce.php') && get_option('icecat_woocommerce') === "on") {
     add_meta_box(
       'icecat_subform',
       __('Set IceCat Data', 'icecat_ean'),
@@ -478,37 +478,38 @@ function icecat_add_fields() {
  *   The wordpress post.
  */
 function icecat_inner_data_box($post) {
+  $val = '';
   echo '<link href="' . plugin_dir_url(__FILE__) . '/assets/css/icecatadmin.css" rel="stylesheet">';
   // Required.
   wp_nonce_field(plugin_basename(__FILE__), 'icecat_noncename');
   // Ean.
   echo '<div class="icecat_form_group">';
   echo '<label for="icecat_ean">';
-  _e("Add an EAN (Required)", 'icecat_ean');
+  _e('Add an EAN (Required)', 'icecat_ean');
   echo '</label> ';
   echo '<input type="text" id="icecat_ean" name="icecat_ean" value="' . esc_attr(get_post_meta($post->ID, 'icecat_ean', TRUE)) . '" size="25" />';
   echo '</div>';
   // Sku.
   echo '<div class="icecat_form_group">';
   echo '<label for="icecat_sku">';
-  _e("Add an SKU (for icecat)", 'icecat_sku');
+  _e('Add an SKU (for icecat)', 'icecat_sku');
   echo '</label> ';
   echo '<input type="text" id="icecat_sku" name="icecat_sku" value="' . esc_attr(get_post_meta($post->ID, 'icecat_sku', TRUE)) . '" size="25" />';
   echo '</div>';
   // Brand.
   echo '<div class="icecat_form_group">';
   echo '<label for="icecat_brand">';
-  _e("Add a BRAND (for icecat)", 'icecat_brand');
+  _e('Add a BRAND (for icecat)', 'icecat_brand');
   echo '</label> ';
   echo '<input type="text" id="icecat_ean" name="icecat_brand" value="' . esc_attr(get_post_meta($post->ID, 'icecat_brand', TRUE)) . '" size="25" />';
   echo '</div>';
   // Disabled.
   echo '<div class="icecat_form_group">';
   echo '<label for="icecat_disabled">';
-  _e("Disable icecat for this product", 'icecat_disabled');
+  _e('Disable icecat for this product', 'icecat_disabled');
   echo '</label> ';
-  if (esc_attr(get_post_meta($post->ID, 'icecat_disabled', TRUE)) == 'on') {
-    $val = "checked=checked";
+  if (esc_attr(get_post_meta($post->ID, 'icecat_disabled', TRUE)) === 'on') {
+    $val = 'checked=checked';
   }
   echo '<input type="checkbox" id="icecat_disabled" name="icecat_disabled" ' . $val . ' />';
   echo '</div>';
@@ -531,17 +532,17 @@ function icecat_save_postdata($post_id) {
       return;
     }
     // Check permissions.
-    if ('page' == $_POST['post_type']) {
+    if ('page' === $_POST['post_type']) {
       if (!current_user_can('edit_page', $post_id)) {
         return;
       }
     }
-    elseif ('post' == $_POST['post_type']) {
+    elseif ('post' === $_POST['post_type']) {
       if (!current_user_can('edit_post', $post_id)) {
         return;
       }
     }
-    elseif ('product' == $_POST['post_type']) {
+    elseif ('product' === $_POST['post_type']) {
       if (!current_user_can('edit_post', $post_id)) {
         return;
       }
@@ -549,23 +550,24 @@ function icecat_save_postdata($post_id) {
     // Array of custom fields.
     $fields = array('ean', 'sku', 'brand', 'disabled');
     foreach ($fields as $field) {
-      $new_ean_value = isset($_POST['icecat_' . $field]) ? esc_attr($_POST['icecat_' . $field]) : '';
+      $post_data_index = 'icecat_' . $field;
+      $new_ean_value = isset($_POST[$post_data_index]) ? esc_attr($_POST[$post_data_index]) : '';
       $ean_key = 'icecat_' . $field;
       $ean_value = get_post_meta($post_id, $ean_key, TRUE);
-      if ($new_ean_value && '' == $ean_value) {
+      if ($new_ean_value && '' === $ean_value) {
         add_post_meta($post_id, $ean_key, $new_ean_value, TRUE);
       }
-      elseif ($new_ean_value && $new_ean_value != $ean_value) {
+      elseif ($new_ean_value && $new_ean_value !== $ean_value) {
         update_post_meta($post_id, $ean_key, $new_ean_value);
       }
-      elseif ('' == $new_ean_value && $ean_value) {
+      elseif ('' === $new_ean_value && $ean_value) {
         delete_post_meta($post_id, $ean_key, $ean_value);
       }
     }
     // Download the icecatdata on save.
     icecat_getdata($post_id, TRUE);
   }
-  elseif (current_filter() == 'pmxi_saved_post') {
+  elseif (current_filter() === 'pmxi_saved_post') {
     icecat_getdata($post_id, TRUE, TRUE);
   }
 }
@@ -578,10 +580,10 @@ add_action('add_meta_boxes', 'icecat_add_fields');
 add_action('admin_notices', 'icecat_admin_notice');
 
 
-if (get_option('icecat_on_save') == 'on') {
+if (get_option('icecat_on_save') === 'on') {
   add_action('save_post', 'icecat_save_postdata');
 }
 
-if (is_plugin_active('wp-all-import-pro/wp-all-import-pro.php') && get_option('icecat_wp_all_import') == 'on') {
+if (is_plugin_active('wp-all-import-pro/wp-all-import-pro.php') && get_option('icecat_wp_all_import') === 'on') {
   add_action('pmxi_saved_post', 'icecat_save_postdata', 10, 1);
 }
