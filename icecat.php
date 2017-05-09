@@ -50,11 +50,11 @@ function icecat_admin_notice() {
  *
  * It will add the icecat data to the content footer.
  *
- * @param $content
+ * @param int $content
  *   The new content.
- * @param $is_new_content bool
+ * @param bool $is_new_content bool
  *   If the content is new.
- * @param $import bool
+ * @param bool $import bool
  *   If it is wp all import.
  */
 function icecat_get_data($content, $is_new_content = FALSE, $import = FALSE) {
@@ -62,15 +62,7 @@ function icecat_get_data($content, $is_new_content = FALSE, $import = FALSE) {
   $product_category_id = NULL;
   $image_list = NULL;
 
-  // Get our post, and do a base check. If not we stop this instantly.
-  if ($is_new_content && !is_array($is_new_content)) {
-    // Set the $post variable.
-    $post = get_post($content);
-  }
-  else {
-    // If not a post or import. Do nothing.
-    return;
-  }
+  $post = get_post($content);
 
   // If we have the product disabled, we can stop.
   if (get_post_meta($post->ID, 'icecat_disabled', TRUE) === 'on' && get_option('icecat_disable_on_success') === 'on') {
