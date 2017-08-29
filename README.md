@@ -42,3 +42,5 @@ Icecat is also multilanguage. You can set yours in the module setting so that yo
 You can create your account on: http://icecat.biz/
 
 You can check your website ip by entering the following command in windows CMD: ping yoururl.com.
+
+This plugin used to be a commercial one. As I am moving focus to other activities, this is now opensource and free to use.
