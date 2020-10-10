@@ -1,3 +1,7 @@
+### Not longer maintained ###
+
+I do not longer maintain this project. Feel free to fork/provide pull requests which I will gladly review. If I notice a strong commitment, I am willing to transfer the rights of the repository.
+
 ###     INSTALLATION HOWTO  ###
 The installation is really simple;
 Just upload the plugin to your plugin directory and enable it using the admin dashboard
